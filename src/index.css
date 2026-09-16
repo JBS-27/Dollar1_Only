@@ -1,0 +1,319 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --void: #000000;
+  --cyan: #6ef6ff;
+  --magenta: #ff6ad5;
+  --mist: rgba(232, 238, 242, 0.74);
+  --holo: linear-gradient(120deg, #6ef6ff 0%, #f4feff 46%, #ff6ad5 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background: #000;
+  color: #e8eef2;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Manrope, system-ui, sans-serif;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+::selection {
+  background: rgba(110, 246, 255, 0.28);
+  color: #fff;
+}
+
+/* Filmic grain — keeps the void from feeling like empty UI chrome. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.holo-text {
+  background: var(--holo);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.dollar-glow {
+  text-shadow:
+    0 0 18px rgba(110, 246, 255, 0.7),
+    0 0 48px rgba(255, 106, 213, 0.35),
+    0 0 110px rgba(110, 246, 255, 0.22);
+}
+
+.wordmark {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.55em;
+  font-family: Sora, system-ui, sans-serif;
+  line-height: 1;
+}
+
+.wordmark-one {
+  font-size: clamp(2.4rem, 8vw, 3.35rem);
+  font-weight: 600;
+  letter-spacing: -0.06em;
+  background: var(--holo);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow:
+    0 0 18px rgba(110, 246, 255, 0.35),
+    0 0 40px rgba(255, 106, 213, 0.16);
+}
+
+.wordmark-only {
+  padding-left: 0.08em;
+  font-size: clamp(2.15rem, 7.2vw, 3.05rem);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: rgba(244, 250, 252, 0.92);
+}
+
+.fee-chip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem 0.85rem;
+  padding: 0.7rem 1.05rem;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: rgba(232, 238, 242, 0.72);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow:
+    0 0 0 1px rgba(110, 246, 255, 0.16),
+    0 0 28px rgba(110, 246, 255, 0.04);
+}
+
+.fee-chip-rule {
+  width: 18px;
+  height: 1px;
+  background: linear-gradient(90deg, #6ef6ff, #ff6ad5);
+  opacity: 0.7;
+}
+
+.panel-holo {
+  background: radial-gradient(120% 90% at 50% 0%, rgba(110, 246, 255, 0.08), rgba(0, 0, 0, 0.92) 46%);
+  box-shadow:
+    0 0 0 1px rgba(110, 246, 255, 0.22),
+    0 0 50px rgba(255, 106, 213, 0.08),
+    inset 0 0 80px rgba(110, 246, 255, 0.03);
+}
+
+.holo-globe-host {
+  background: radial-gradient(ellipse at 50% 45%, rgba(110, 246, 255, 0.05), transparent 58%);
+}
+
+.holo-pin-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Living globe $1 pins — projected HTML, the same mark as the hero. */
+.dollar-pin {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #f4feff;
+  font-family: Sora, sans-serif;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+  transition: opacity 0.35s ease;
+}
+
+.dollar-pin.is-born {
+  animation: pin-born 0.9s ease both;
+}
+
+.dollar-pin-aura {
+  position: absolute;
+  inset: 4px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(110, 246, 255, 0.28), transparent 68%);
+  filter: blur(6px);
+  opacity: 0.7;
+}
+
+.dollar-pin.is-hot .dollar-pin-aura {
+  inset: -2px;
+  background: radial-gradient(circle, rgba(255, 106, 213, 0.32), rgba(110, 246, 255, 0.18) 42%, transparent 70%);
+  opacity: 1;
+}
+
+.dollar-pin-sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: #6ef6ff;
+  box-shadow: 0 0 10px #6ef6ff;
+  opacity: 0;
+}
+
+.dollar-pin.is-hot .dollar-pin-sparkle {
+  animation: pin-sparkle 2.4s ease-in-out infinite;
+}
+
+.dollar-pin-mark {
+  position: relative;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  padding: 7px 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  box-shadow:
+    0 0 16px rgba(110, 246, 255, 0.65),
+    0 0 36px rgba(255, 106, 213, 0.28);
+  text-shadow: 0 0 12px rgba(110, 246, 255, 0.9);
+}
+
+.dollar-pin.is-hot .dollar-pin-mark {
+  font-size: 18px;
+  box-shadow:
+    0 0 20px rgba(110, 246, 255, 0.85),
+    0 0 48px rgba(255, 106, 213, 0.45);
+}
+
+.dollar-pin.is-pulse .dollar-pin-mark {
+  animation: pin-pulse 1.2s ease;
+}
+
+.dollar-pin-name {
+  margin-top: 4px;
+  font-family: Manrope, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(232, 238, 242, 0.72);
+  white-space: nowrap;
+  animation: pin-name-in 1.6s ease both;
+}
+
+.dollar-pin.is-named .dollar-pin-name {
+  color: rgba(244, 250, 252, 0.9);
+  text-shadow: 0 0 12px rgba(110, 246, 255, 0.45);
+}
+
+@keyframes pin-born {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes pin-pulse {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.45);
+    box-shadow:
+      0 0 22px rgba(110, 246, 255, 0.95),
+      0 0 60px rgba(255, 106, 213, 0.55);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pin-sparkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translate(10px, -8px) scale(0.4);
+  }
+  40% {
+    opacity: 0.9;
+    transform: translate(16px, -14px) scale(1);
+  }
+}
+
+@keyframes pin-name-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-core {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.08);
+  }
+}
+
+.orb-pulse {
+  animation: pulse-core 3.8s ease-in-out infinite;
+}
+
+.orb-pulse-slow {
+  animation: pulse-core 6.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .orb-pulse,
+  .orb-pulse-slow,
+  .dollar-pin-name,
+  .dollar-pin.is-born,
+  .dollar-pin.is-pulse .dollar-pin-mark,
+  .dollar-pin.is-hot .dollar-pin-sparkle {
+    animation: none;
+  }
+}
