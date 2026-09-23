@@ -260,6 +260,16 @@ body::after {
     inset 0 0 80px rgba(110, 246, 255, 0.03);
 }
 
+.earth-chart,
+.earth-chart canvas {
+  cursor: grab;
+}
+
+.earth-chart:active,
+.earth-chart:active canvas {
+  cursor: grabbing;
+}
+
 .holo-globe-host {
   background: radial-gradient(ellipse at 50% 45%, rgba(110, 246, 255, 0.05), transparent 58%);
 }

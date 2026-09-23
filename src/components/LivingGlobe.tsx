@@ -62,7 +62,6 @@ export default function LivingGlobe({ countries }: Props) {
         homeZoomLevel: 1,
         homeRotationX: -20,
         homeRotationY: -16,
-        paddingBottom: 56,
       }),
     );
 
@@ -122,72 +121,40 @@ export default function LivingGlobe({ countries }: Props) {
       setSelected(context?.id ? { id: context.id, name: context.name } : null);
     });
 
-    const slider = chart.children.push(
-      am5.Slider.new(root, {
-        orientation: "horizontal",
-        start: ((-20 % 360) + 360) / 360,
-        width: am5.percent(68),
-        centerX: am5.percent(50),
-        x: am5.percent(50),
-        y: am5.percent(100),
-        centerY: am5.percent(100),
-      }),
-    );
-    slider.thumb.setAll({
-      fill: root.interfaceColors.get("primaryButton"),
-    });
+    let dragging = false;
+    let last = performance.now();
+    let frame = 0;
 
-    let spin: { stop: () => void } | null = null;
-    let resumeTimer = 0;
-    let applying = false;
-
-    const startSpin = () => {
+    const tick = (now: number) => {
       if (root.isDisposed()) return;
-      spin?.stop();
-      const current = chart.get("rotationX", 0);
-      spin = chart.animate({
-        key: "rotationX",
-        from: current,
-        to: current + 360,
-        duration: SPIN_MS,
-        loops: Infinity,
-        easing: am5.ease.linear,
-      });
+      const dt = Math.min(now - last, 50);
+      last = now;
+      if (!dragging) {
+        const current = chart.get("rotationX", 0);
+        chart.set("rotationX", current + (360 * dt) / SPIN_MS);
+      }
+      frame = window.requestAnimationFrame(tick);
     };
 
-    const pauseSpin = () => {
-      window.clearTimeout(resumeTimer);
-      spin?.stop();
-      spin = null;
+    const hold = () => {
+      dragging = true;
+    };
+    const release = () => {
+      dragging = false;
+      last = performance.now();
     };
 
-    const resumeSpin = () => {
-      window.clearTimeout(resumeTimer);
-      resumeTimer = window.setTimeout(startSpin, 700);
-    };
-
-    chart.on("rotationX", (value) => {
-      const turns = ((((value ?? 0) % 360) + 360) % 360);
-      applying = true;
-      slider.set("start", turns / 360);
-      applying = false;
-    });
-
-    slider.events.on("rangechanged", (event) => {
-      if (applying) return;
-      pauseSpin();
-      chart.set("rotationX", event.start * 360);
-      resumeSpin();
-    });
-
-    chart.chartContainer.events.on("pointerdown", pauseSpin);
-    chart.chartContainer.events.on("pointerup", resumeSpin);
+    chart.chartContainer.events.on("pointerdown", hold);
+    window.addEventListener("pointerup", release);
+    window.addEventListener("pointercancel", release);
 
     chart.appear(1000, 100);
-    resumeTimer = window.setTimeout(startSpin, 1100);
+    frame = window.requestAnimationFrame(tick);
 
     return () => {
-      window.clearTimeout(resumeTimer);
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("pointerup", release);
+      window.removeEventListener("pointercancel", release);
       paintRef.current = () => {};
       root.dispose();
     };
@@ -205,17 +172,17 @@ export default function LivingGlobe({ countries }: Props) {
           Every country. The same Earth.
         </h2>
         <p className="mt-2 text-[13px] text-white/40">
-          Drag to turn. Scroll to zoom. The slider sets the horizontal view.
+          It turns on its own. Drag to take over. Scroll to zoom.
           {selected?.name ? ` Selected: ${selected.name}.` : ""}
         </p>
       </div>
       <div className="relative mx-auto aspect-square w-full max-h-[min(88svh,760px)] max-w-[760px]">
-        <div ref={hostRef} className="absolute inset-0" />
+        <div ref={hostRef} className="earth-chart absolute inset-0" />
         {chartError && (
           <p className="absolute inset-x-6 top-6 text-center text-sm text-white/70">{chartError}</p>
         )}
         {selectedStat && (
-          <div className="pointer-events-auto absolute bottom-16 left-1/2 z-10 -translate-x-1/2">
+          <div className="pointer-events-auto absolute bottom-4 left-1/2 z-10 -translate-x-1/2">
             <PinCard
               countryCode={selectedStat.code}
               countryName={selectedStat.name}
