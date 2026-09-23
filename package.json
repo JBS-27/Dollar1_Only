@@ -13,6 +13,8 @@
     "start": "tsx server/index.ts"
   },
   "dependencies": {
+    "@amcharts/amcharts5": "^5.20.8",
+    "@amcharts/amcharts5-geodata": "^5.1.6",
     "@supabase/supabase-js": "^2.49.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
