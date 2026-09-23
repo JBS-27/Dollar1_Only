@@ -1,9 +1,9 @@
-import { VALID_COUNTRY_CODES } from "../../src/data/countries";
-import { serverConfig } from "./config";
-import { applyCors, clientIp, header, methodGuard, type ApiReq, type ApiRes } from "./http";
-import { rejectIfLimited } from "./rateLimit";
-import { createLockedCheckout, getStripe, verifyWebhook } from "./stripe";
-import { findByHash, findBySession, getStats, insertSignal, sessionAlreadyRecorded } from "./store";
+import { VALID_COUNTRY_CODES } from "../../src/data/countries.js";
+import { serverConfig } from "./config.js";
+import { applyCors, clientIp, header, methodGuard, type ApiReq, type ApiRes } from "./http.js";
+import { rejectIfLimited } from "./rateLimit.js";
+import { createLockedCheckout, getStripe, verifyWebhook } from "./stripe.js";
+import { findByHash, findBySession, getStats, insertSignal, sessionAlreadyRecorded } from "./store.js";
 
 function gate(req: ApiReq, res: ApiRes, methods: string[], limit: number, windowMs: number): boolean {
   if (applyCors(req, res)) return false;

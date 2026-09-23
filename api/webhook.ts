@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { handleWebhook } from "../server/lib/handlers";
-import { fromVercel, wrapVercel } from "../server/lib/vercel";
+import { handleWebhook } from "../server/lib/handlers.js";
+import { fromVercel, wrapVercel } from "../server/lib/vercel.js";
 
 export const config = {
   api: {

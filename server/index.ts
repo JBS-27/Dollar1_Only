@@ -1,5 +1,5 @@
 import express from "express";
-import { serverConfig } from "./lib/config";
+import { serverConfig } from "./lib/config.js";
 import {
   handleCheckout,
   handleConfig,
@@ -9,8 +9,8 @@ import {
   handleReceipt,
   handleStats,
   handleWebhook,
-} from "./lib/handlers";
-import { fromNode, wrapNodeRes } from "./lib/http";
+} from "./lib/handlers.js";
+import { fromNode, wrapNodeRes } from "./lib/http.js";
 
 const app = express();
 app.set("trust proxy", 1);

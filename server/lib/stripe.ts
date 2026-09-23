@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { publicOrigin, serverConfig } from "./config";
+import { publicOrigin, serverConfig } from "./config.js";
 
 let stripe: Stripe | null = null;
 

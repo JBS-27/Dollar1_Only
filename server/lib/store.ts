@@ -1,8 +1,8 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { countryName, VALID_COUNTRY_CODES } from "../../src/data/countries";
+import { countryName, VALID_COUNTRY_CODES } from "../../src/data/countries.js";
 import type { PaymentMethod, SoulReceipt, StatsPayload } from "../../src/types";
-import { serverConfig } from "./config";
-import { createReceiptHash } from "./receipt";
+import { serverConfig } from "./config.js";
+import { createReceiptHash } from "./receipt.js";
 
 export type SignalRow = {
   country_code: string;

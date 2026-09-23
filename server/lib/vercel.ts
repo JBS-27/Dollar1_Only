@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import type { ApiReq, ApiRes } from "./http";
-import { readNodeRaw, safeJson } from "./http";
+import { readNodeRaw, safeJson } from "./http.js";
 
 export async function fromVercel(req: VercelRequest): Promise<ApiReq> {
   const method = req.method ?? "GET";

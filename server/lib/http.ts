@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { serverConfig } from "./config";
+import { serverConfig } from "./config.js";
 
 export type ApiReq = {
   method: string;
