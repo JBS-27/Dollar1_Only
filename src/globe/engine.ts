@@ -87,10 +87,10 @@ export function createGlobeEngine(host: HTMLElement, options: Options): GlobeEng
   const globeGeo = new THREE.SphereGeometry(EARTH_RADIUS, 96, 72);
   const coreMat = new THREE.MeshStandardMaterial({
     color: 0x8ea4b8,
-    metalness: 0.62,
-    roughness: 0.48,
-    emissive: 0x0a1824,
-    emissiveIntensity: 0.28,
+    metalness: 0.22,
+    roughness: 0.72,
+    emissive: 0x071018,
+    emissiveIntensity: 0.18,
   });
   const core = new THREE.Mesh(globeGeo, coreMat);
   root.add(core);
@@ -99,7 +99,7 @@ export function createGlobeEngine(host: HTMLElement, options: Options): GlobeEng
     coreMat.map = color;
     coreMat.bumpMap = bump;
     coreMat.bumpScale = 0.055;
-    coreMat.color.set(0xc5d4e2);
+    coreMat.color.set(0xffffff);
     coreMat.needsUpdate = true;
     earthUniforms.uLand.value = color;
   });

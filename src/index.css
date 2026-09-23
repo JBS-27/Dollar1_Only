@@ -93,6 +93,140 @@ body::after {
   color: rgba(244, 250, 252, 0.92);
 }
 
+.currency-lock {
+  display: grid;
+  grid-template-columns: clamp(5.2rem, 18vw, 8rem) clamp(1.7rem, 5vw, 2.6rem) auto;
+  align-items: center;
+  min-height: clamp(5.2rem, 18vw, 8.6rem);
+}
+
+.currency-slot {
+  position: relative;
+  height: clamp(3.6rem, 12vw, 6.6rem);
+}
+
+.currency-mark {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -0.55em;
+  font-family: Sora, system-ui, sans-serif;
+  font-size: clamp(3.5rem, 12vw, 6.5rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  filter: drop-shadow(0 0 16px rgba(255, 106, 213, 0.45)) drop-shadow(0 0 28px rgba(110, 246, 255, 0.28));
+}
+
+.currency-mark-ink {
+  background: linear-gradient(100deg, #ff6ad5 0%, #fff 48%, #6ef6ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.currency-streak {
+  position: absolute;
+  right: 8%;
+  top: 58%;
+  width: 70%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(110, 246, 255, 0.8));
+  filter: blur(1px);
+  opacity: 0.7;
+}
+
+.currency-dash {
+  display: block;
+  height: 3px;
+  width: 100%;
+  border-radius: 99px;
+  transform-origin: left center;
+  background: linear-gradient(90deg, #ff6ad5, #f4feff 55%, #6ef6ff);
+  box-shadow:
+    0 0 10px rgba(255, 106, 213, 0.8),
+    0 0 18px rgba(110, 246, 255, 0.85);
+  animation: currency-strike 1.18s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.currency-one {
+  font-family: Sora, system-ui, sans-serif;
+  font-size: clamp(5.4rem, 20vw, 9rem);
+  font-weight: 600;
+  line-height: 0.82;
+  letter-spacing: -0.08em;
+  color: #f7ffff;
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.55),
+    0 0 26px rgba(110, 246, 255, 0.85),
+    0 0 72px rgba(110, 246, 255, 0.38),
+    0 16px 30px rgba(0, 0, 0, 0.55);
+}
+
+.currency-line {
+  background: var(--holo);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.idea-cue {
+  margin-top: 3.5rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(232, 238, 242, 0.42);
+}
+
+.idea-cue:hover {
+  color: rgba(110, 246, 255, 0.85);
+}
+
+.idea-card {
+  position: relative;
+  padding-top: 0.25rem;
+  text-align: left;
+}
+
+.idea-index {
+  font-family: Sora, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  color: rgba(110, 246, 255, 0.55);
+}
+
+.idea-title {
+  margin-top: 0.7rem;
+  font-family: Sora, system-ui, sans-serif;
+  font-size: clamp(2rem, 5vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  background: linear-gradient(120deg, #f7ffff 10%, #6ef6ff 46%, #ff6ad5 130%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgba(110, 246, 255, 0.28));
+}
+
+@keyframes currency-strike {
+  0% {
+    transform: scaleX(0.05);
+    opacity: 0;
+  }
+  22% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0.4;
+  }
+}
+
 .fee-chip {
   display: flex;
   flex-wrap: wrap;
@@ -310,6 +444,7 @@ body::after {
   }
   .orb-pulse,
   .orb-pulse-slow,
+  .currency-dash,
   .dollar-pin-name,
   .dollar-pin.is-born,
   .dollar-pin.is-pulse .dollar-pin-mark,

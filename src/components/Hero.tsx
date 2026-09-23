@@ -18,7 +18,7 @@ export function Hero({ total, countries, onOpenPayment }: Props) {
         className="relative z-10 flex w-full max-w-xl flex-col items-center text-center"
       >
         <p className="mb-5 text-[11px] font-medium uppercase tracking-[0.34em] text-cyan-glow/70">
-          A global $1 experiment
+          The signal
         </p>
         <GlowingOne onOpen={onOpenPayment} />
         <h1 className="wordmark mt-7" aria-label="$1 Only">

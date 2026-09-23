@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { AmbientToggle } from "./components/AmbientToggle";
 import { Footer } from "./components/Footer";
+import { CurrencyLock } from "./components/CurrencyLock";
 import { Hero } from "./components/Hero";
+import { IdeaStrip } from "./components/IdeaStrip";
 import { ParticleField } from "./components/ParticleField";
 import LivingGlobe from "./components/LivingGlobe";
 import { LoadingExperience } from "./components/LoadingExperience";
@@ -86,6 +88,8 @@ export default function App() {
     <div className="relative min-h-screen bg-black">
       <ParticleField />
       <LoadingExperience show={booting} onDone={() => setBooting(false)} />
+      <CurrencyLock />
+      <IdeaStrip />
       <Hero
         total={live.total}
         countries={live.countriesAwakened}

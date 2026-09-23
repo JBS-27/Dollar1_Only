@@ -9,7 +9,7 @@ type Props = {
 export function LoadingExperience({ show, onDone }: Props) {
   useEffect(() => {
     if (!show) return;
-    const timer = window.setTimeout(onDone, 2200);
+    const timer = window.setTimeout(onDone, 700);
     return () => window.clearTimeout(timer);
   }, [show, onDone]);
 

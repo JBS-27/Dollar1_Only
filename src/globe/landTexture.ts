@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 const WIDTH = 2048;
 const HEIGHT = 1024;
-const TOPOLOGY = "https://unpkg.com/three-globe/example/img/earth-topology.png";
+const TOPOLOGY = "/earth-topology.png";
 
 /** Equirectangular blobs so continents still read if the topology image never loads. */
 const FALLBACK_LAND: Array<{ x: number; y: number; rx: number; ry: number }> = [
@@ -48,29 +48,24 @@ function paintFromTopology(source: HTMLImageElement): HTMLCanvasElement {
       continue;
     }
     const lift = Math.min(1, (height - 28) / 180);
-    data[i] = Math.round(32 + lift * 28);
-    data[i + 1] = Math.round(50 + lift * 34);
-    data[i + 2] = Math.round(68 + lift * 42);
+    data[i] = Math.round(58 + lift * 46);
+    data[i + 1] = Math.round(86 + lift * 58);
+    data[i + 2] = Math.round(112 + lift * 62);
   }
 
   // Thicker luminous coasts so continents stay readable at globe scale.
   const copy = new Uint8ClampedArray(data);
-  const isLand = (x: number, y: number) => copy[(y * WIDTH + x) * 4 + 2] > 20;
-  for (let y = 2; y < HEIGHT - 2; y += 1) {
-    for (let x = 2; x < WIDTH - 2; x += 1) {
+  const isLand = (x: number, y: number) => copy[(y * WIDTH + ((x + WIDTH) % WIDTH)) * 4 + 2] > 40;
+  for (let y = 3; y < HEIGHT - 3; y += 1) {
+    for (let x = 0; x < WIDTH; x += 1) {
       if (!isLand(x, y)) continue;
-      if (
-        isLand(x - 2, y) &&
-        isLand(x + 2, y) &&
-        isLand(x, y - 2) &&
-        isLand(x, y + 2)
-      ) {
-        continue;
-      }
+      const inland =
+        isLand(x - 3, y) && isLand(x + 3, y) && isLand(x, y - 3) && isLand(x, y + 3);
+      if (inland) continue;
       const i = (y * WIDTH + x) * 4;
-      data[i] = 86;
-      data[i + 1] = 196;
-      data[i + 2] = 214;
+      data[i] = 150;
+      data[i + 1] = 232;
+      data[i + 2] = 246;
     }
   }
 

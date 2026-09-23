@@ -42,8 +42,8 @@ export const earthFragment = /* glsl */ `
     float grid = max(latLine, lonLine) * (0.07 + fresnel * 0.12);
 
     vec3 landSample = texture2D(uLand, vUv).rgb;
-    float coast = smoothstep(0.28, 0.55, landSample.b) * step(0.22, landSample.g);
-    float land = step(0.09, landSample.g);
+    float coast = smoothstep(0.75, 0.95, landSample.b);
+    float land = smoothstep(0.28, 0.48, landSample.g) * (1.0 - coast);
 
     vec3 cyan = vec3(0.43, 0.965, 1.0);
     vec3 magenta = vec3(1.0, 0.416, 0.835);
@@ -61,8 +61,8 @@ export const earthFragment = /* glsl */ `
 
     vec3 color = fresnel * mix(cyan, magenta, fresnel * 0.5);
     color += grid * cyan * 0.55;
-    color += coast * cyan * 0.42;
-    color += land * cyan * 0.07;
+    color += coast * cyan * 0.62;
+    color += land * vec3(0.55, 0.78, 0.92) * 0.16;
     color += ring * cyan * 1.35;
     color += ring2 * magenta * 0.85;
     color += wash * cyan;
